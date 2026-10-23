@@ -7,6 +7,18 @@ function Todos() {
   const hasCompleted = todos.some((todo) => todo.completed)
   const allCompleted = activeCount === 0
 
+  const [filter, setFilter] = useState('All')
+
+const filteredTodos = todos.filter((todo) => {
+  if (filter === 'Active') return !todo.completed
+  if (filter === 'Completed') return todo.completed
+  return true
+})
+
+const selectedClass =
+  'cursor-pointer rounded-[3px] border border-[#b83f45]/20 px-[7px] py-[3px]'
+const notSelectedClass =
+  'cursor-pointer rounded-[3px] border border-transparent px-[7px] py-[3px] hover:border-[#b83f45]/10'
 
   function handleToggleAll() {
   setTodos(todos.map((todo) => ({ ...todo, completed: !allCompleted })))
@@ -67,7 +79,7 @@ function Todos() {
           </label>
 
           <ul>
-              {todos.map((todo) => (
+              {filteredTodos.map((todo) => (
               <li
                 key={todo.id}
                 className="group relative flex items-center border-b border-[#ededed] text-2xl"
@@ -107,31 +119,34 @@ function Todos() {
           </span>
 
           <ul className="flex justify-center gap-1">
-            <li>
-              <button
-                type="button"
-                className="cursor-pointer rounded-[3px] border border-[#b83f45]/20 px-[7px] py-[3px]"
-              >
-                All
-              </button>
-            </li>
-            <li>
-              <button
-                type="button"
-                className="cursor-pointer rounded-[3px] border border-transparent px-[7px] py-[3px] hover:border-[#b83f45]/10"
-              >
-                Active
-              </button>
-            </li>
-            <li>
-              <button
-                type="button"
-                className="cursor-pointer rounded-[3px] border border-transparent px-[7px] py-[3px] hover:border-[#b83f45]/10"
-              >
-                Completed
-              </button>
-            </li>
-          </ul>
+  <li>
+    <button
+      type="button"
+      onClick={() => setFilter('All')}
+      className={filter === 'All' ? selectedClass : notSelectedClass}
+    >
+      All
+    </button>
+  </li>
+  <li>
+    <button
+      type="button"
+      onClick={() => setFilter('Active')}
+      className={filter === 'Active' ? selectedClass : notSelectedClass}
+    >
+      Active
+    </button>
+  </li>
+  <li>
+    <button
+      type="button"
+      onClick={() => setFilter('Completed')}
+      className={filter === 'Completed' ? selectedClass : notSelectedClass}
+    >
+      Completed
+    </button>
+  </li>
+</ul>
 
           {hasCompleted && (
             <button

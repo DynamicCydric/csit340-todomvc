@@ -5,6 +5,12 @@ function Todos() {
   const [todos, setTodos] = useState([])
   const activeCount = todos.filter((todo) => !todo.completed).length
   const hasCompleted = todos.some((todo) => todo.completed)
+  const allCompleted = activeCount === 0
+
+
+  function handleToggleAll() {
+  setTodos(todos.map((todo) => ({ ...todo, completed: !allCompleted })))
+}
 
   function handleClearCompleted() {
   setTodos(todos.filter((todo) => !todo.completed))
@@ -67,10 +73,11 @@ function Todos() {
                 className="group relative flex items-center border-b border-[#ededed] text-2xl"
               >
               <input
-                type="checkbox"
-                checked={todo.completed}
-                onChange={() => handleToggle(todo.id)}
-                className="ml-[15px] size-[30px] shrink-0 cursor-pointer accent-[#59a193]"
+                 id="toggle-all"
+                 type="checkbox"
+                 className="peer sr-only"
+                 checked={allCompleted}
+                 onChange={handleToggleAll}
               />
               <span
                   className={
